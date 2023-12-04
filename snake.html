@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Snake</title>
+    <style>
+        * {
+            font-family: Arial;
+            color: lightgrey;
+            font-size: 20px;
+        }
+
+        table {
+            border-spacing: 2px;
+        }
+
+        tr {
+            height: 17px;
+            border-radius: 2px;
+        }
+
+        td {
+            width: 15px;
+            border-radius: 2px;
+        }
+
+        form {
+            display: flex;
+            margin: 10px 20px;
+        }
+
+        .off {
+            background-color: lightgrey
+        }
+
+        .green {
+            background-color: lightseagreen
+        }
+
+        .red {
+            background-color: lightcoral
+        }
+
+        .yellow {
+            background-color: gold
+        }
+
+        .label {
+            width: 20%;
+            margin-top: 20px;
+            color: lightgrey;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .input {
+            margin: 0 20%;
+            padding: 5px;
+            width: 50%;
+            color: gold;
+            font-weight: bold;
+            font-size: 30px;
+            text-align: center;
+            background-color: white;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .input:focus {
+            background-color: gold;
+            color: black;
+        }
+
+        #score {
+            color: lightseagreen;
+            width: 80px;
+        }
+
+        #score,
+        #highscore,
+        .display {
+            font-weight: bold;
+            font-size: 30px;
+            margin: 20px;
+        }
+
+        #highscore {
+            color: lightcoral;
+        }
+
+        #title {
+            margin: 0px 20px;
+            color: lightseagreen;
+            font-size: 70px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #button {
+            margin-top: 20px;
+            margin-left: 50px;
+            padding: 20px 30px;
+            height: 60px;
+            color: white;
+            font-weight: bold;
+            background-color: lightcoral;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        #button:hover {
+            background-color: gold;
+        }
+
+        #button:active {
+            color: black;
+        }
+
+        #button:disabled {
+            background-color: lightgrey;
+        }
+
+        #info {
+            display: flex;
+            justify-content: center;
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+        }
+
+        ::-moz-selection {
+            color: white;
+            background: lightgrey;
+        }
+
+        ::selection {
+            color: white;
+            background: lightgrey;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="title">SNAKE<br></p>
+    <form>
+        <label for="matrixx" class="label">Width
+            <input id="matrixx" class="input" value="10">
+        </label>
+        <label for="matrixy" class="label">Height
+            <input id="matrixy" class="input" value="10">
+        </label>
+        <label for="startspeed" class="label">Speed
+            <input id="startspeed" class="input" value="2">
+        </label>
+        <label for="speedfactor" class="label">Acceleration
+            <input id="speedfactor" class="input" value="0">
+        </label>
+        <input type="button" value="START" id="button">
+    </form>
+    <div id="info">
+        <p class="display" class="gray">SCORE</p>
+        <p id="score" class="gray">...</p>
+        <p class="display">HIGHSCORE</p>
+        <p id="highscore">...</p>
+    </div>
+    <div id="container"></div>
+</body>
+<script>
+    class Matrix {
+        constructor(container, xSize, ySize) {
+            let table = document.createElement('table')
+            for (let y = 0; y < ySize; y++) {
+                let tr = document.createElement('tr')
+                for (let x = 0; x < xSize; x++) {
+                    let td = document.createElement('td')
+                    td.className = 'off'
+                    td.id = `${y}-${x}`
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+                table.id = "table";
+            }
+            container.appendChild(table);
+            container.id = "container";
+        }
+
+        clear() {
+            for (let ix = 0; ix < xMatrix; ix++) {
+                for (let iy = 0; iy < yMatrix; iy++) {
+                    matrix.off(ix, iy);
+                }
+            }
+        }
+
+        on(x, y, color) {
+            document.getElementById(`${y}-${x}`).className = 'on ' + color
+        }
+
+        off(x, y) {
+            document.getElementById(`${y}-${x}`).className = 'off'
+        }
+
+        fill(color) {
+            for (let ix = 0; ix < xMatrix; ix++) {
+                for (let iy = 0; iy < yMatrix; iy++) {
+                    matrix.on(ix, iy, color);
+                }
+            }
+        }
+    }
+    window.addEventListener("keydown", detectKey, false);
+    const TOP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
+    let direction,
+        snakeX,
+        snakeY,
+        snakeLength,
+        speedFactor,
+        delayTime,
+        fruitX,
+        fruitY,
+        gameOver = true,
+        score,
+        highScore = 0,
+        keysChecked,
+        xDown,
+        yDown,
+        xMatrix,
+        yMatrix,
+        matrix,
+        matrixSize,
+        nan = false,
+        newHigh = false;
+    document.getElementById("button").onclick = function () { startUp() };
+
+    function loop() {
+        setTimeout(function () {
+            nextStep();
+            keysChecked = false;
+            if (!gameOver) {
+                drawMatrix();
+                loop();
+            } else {
+                newGame();
+            }
+        }, delayTime);
+    }
+
+    function detectKey(e) {
+        if (!keysChecked) {
+            switch (e.keyCode) {
+                case 37:
+                    if (direction != RIGHT) {
+                        direction = LEFT;
+                    }
+                    break;
+                case 39:
+                    if (direction != LEFT) {
+                        direction = RIGHT;
+                    }
+                    break;
+                case 38:
+                    if (direction != DOWN) {
+                        direction = TOP;
+                    }
+                    break;
+                case 40:
+                    if (direction != TOP) {
+                        direction = DOWN;
+                    }
+                    break;
+            }
+            keysChecked = true;
+        }
+    }
+
+    function drawMatrix() {
+        matrix.clear();
+        //drawSnake
+        for (let i = 0; i < snakeLength; i++) {
+            matrix.on(snakeX[i], snakeY[i], "green");
+        }
+        //drawFruit
+        try {
+            matrix.on(fruitX, fruitY, "red");
+        } catch {
+            gameOver = true;
+        }
+    }
+
+    function makeFruit() {
+        let x, y;
+        do {
+            x = Math.floor(Math.random() * xMatrix);
+            y = Math.floor(Math.random() * yMatrix);
+        } while (onSnake(x, y) || (snakeX[0] == x && snakeY[0] == y));
+        fruitX = x;
+        fruitY = y;
+    }
+
+    function onMatrix(x, y) {
+        if (x >= 0 && x < xMatrix && y >= 0 && y < yMatrix) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function onSnake(x, y) {
+        for (let i = 1; i < snakeLength; i++) {
+            if (x == snakeX[i] && y == snakeY[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function startUp() {
+        if (gameOver) {
+            if (score > highScore) {
+                highScore = score;
+            }
+            try {
+                document.getElementById("container").removeChild(document.getElementById("table"));
+            } catch { }
+            checkInput("matrixx", 2, parseInt(window.innerWidth / 20));
+            xMatrix = parseInt(document.getElementById("matrixx").value);
+            checkInput("matrixy", 2, parseInt(window.innerHeight / 20) - 13);
+            yMatrix = parseInt(document.getElementById("matrixy").value);
+            matrix = new Matrix(document.getElementById("container"), xMatrix, yMatrix),
+                matrixSize = xMatrix * yMatrix,
+                direction = DOWN,
+                snakeX = [0],
+                snakeY = [0],
+                snakeLength = 1;
+            checkInput("speedfactor", 0, 99);
+            speedFactor = 1 - parseInt(document.getElementById("speedfactor").value) / 100;
+            checkInput("startspeed", 1, 20);
+            delayTime = 1 / parseInt(document.getElementById("startspeed").value) * 1000;
+            if (!nan) {
+                gameOver = false,
+                    score = 0,
+                    xDown = null,
+                    yDown = null;
+                document.getElementById("score").innerHTML = 0;
+                document.getElementById("highscore").innerHTML = highScore;
+                document.getElementById("button").disabled = true;
+                for (let i = 1; i < matrixSize; i++) {
+                    snakeX[i] = -1;
+                    snakeY[i] = -1;
+                }
+                matrix.fill("yellow");
+                makeFruit();
+                drawMatrix();
+                setTimeout(loop(), 4000);
+            } else {
+                nan = false;
+            }
+        }
+    }
+
+    function checkInput(id, min, max) {
+        if (isNaN(document.getElementById(id).value)) {
+            alert("Bitte Zahl eingeben");
+            nan = true;
+        } else if (document.getElementById(id).value < min) {
+            document.getElementById(id).value = min;
+        } else if (document.getElementById(id).value > max) {
+            document.getElementById(id).value = max;
+        }
+    }
+
+    function nextStep() {
+        for (let i = snakeLength; i > 0; i--) {
+            snakeX[i] = snakeX[i - 1];
+            snakeY[i] = snakeY[i - 1];
+        }
+        switch (direction) {
+            case TOP:
+                snakeY[0] = snakeY[1] - 1;
+                break;
+            case RIGHT:
+                snakeX[0] = snakeX[1] + 1;
+                break;
+            case DOWN:
+                snakeY[0] = snakeY[1] + 1;
+                break;
+            case LEFT:
+                snakeX[0] = snakeX[1] - 1;
+                break;
+        }
+        if (snakeX[0] == fruitX && snakeY[0] == fruitY) {
+            snakeLength++;
+            score++;
+            document.getElementById("score").innerHTML = score;
+            if (score > highScore) {
+                document.getElementById("highscore").innerHTML = score;
+                newHigh = true;
+            }
+            if (snakeLength < matrixSize) {
+                makeFruit();
+                delayTime *= speedFactor;
+            } else {
+                fruitX = -1;
+                fruitY = -1;
+                setTimeout(function () {
+                    matrix.fill("red");
+                    setTimeout(function () {
+                        matrix.fill("green");
+                    }, 500);
+                }, 1000);
+            }
+        }
+        else if (!onMatrix(snakeX[0], snakeY[0]) || onSnake(snakeX[0], snakeY[0])) {
+            gameOver = true;
+        }
+    }
+
+    function newGame() {
+        if (newHigh) {
+            matrix.fill("red");
+            newHigh = false;
+        } else {
+            matrix.fill("yellow");
+        }
+        document.getElementById("button").disabled = false;
+        document.getElementById("button").onclick = function () { startUp() };
+    }
+</script>
+
+</html>

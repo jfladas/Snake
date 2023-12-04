@@ -1,0 +1,104 @@
+* {
+    font-family: Arial;
+    color: lightgrey;
+    font-size: 20px;
+}
+table {
+    border-spacing: 2px;
+}
+tr {
+    height: 17px;
+    border-radius: 2px;
+}
+td {
+    width: 15px;
+    border-radius: 2px;
+}
+form {
+    display: flex;
+    margin: 10px 20px;
+}
+.off {background-color: lightgrey}
+.green {background-color: lightseagreen}
+.red {background-color: lightcoral}
+.yellow {background-color: gold}
+.label {
+    width: 20%;
+    margin-top: 20px;
+    color: lightgrey;
+    font-weight: bold;
+    text-align: center;
+}
+.input {
+    margin: 0 20%;
+    padding: 5px;
+    width: 50%;
+    color: gold;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+.input:focus {
+    background-color: gold;
+    color: black;
+}
+#score {
+    color: lightseagreen;
+    width: 80px;
+}
+#score, #highscore, .display {
+    font-weight: bold;
+    font-size: 30px;
+    margin: 20px;
+}
+#highscore {
+    color: lightcoral;
+}
+#title {
+    margin: 0px 20px;
+    color: lightseagreen;
+    font-size: 70px;
+    font-weight: bold;
+    text-align: center;
+}
+#button {
+    margin-top: 20px;
+    margin-left: 50px;
+    padding: 20px 30px;
+    height: 60px;
+    color: white;
+    font-weight: bold;
+    background-color: lightcoral;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+#button:hover {
+    background-color: gold;
+}
+#button:active {
+    color: black;
+}
+#button:disabled {
+    background-color: lightgrey;
+}
+#info {
+    display: flex;
+    justify-content: center;
+}
+#container {
+    display: flex;
+    justify-content: center;
+}
+::-moz-selection {
+    color: white;
+    background: lightgrey;
+}
+::selection {
+    color: white;
+    background: lightgrey;
+}

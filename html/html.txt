@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Snake</title>
+        <style>
+            * {
+                font-family: Arial;
+            }
+            table {
+                border-spacing: 1px;
+            }
+             
+            tr {
+                height:15px;
+            }
+             
+            td {
+                width:15px;
+
+                padding:0;
+            }
+            .off {
+                background-color: lightgrey;
+            }
+            .green {
+                background-color: lightseagreen;
+            }
+            .red {
+                background-color: lightcoral;
+            }
+            .yellow {
+                background-color: gold;
+            }
+            #score {
+                color: lightgray;
+                height: 20px;
+                font-size: 20px;
+            }
+            #highscore {
+                color: lightcoral;
+                height: 20px;
+                font-size: 20px;
+            }
+            #message {
+                color: lightseagreen;
+                height: 30px;
+                font-size: 30px;
+            }
+        </style>
+         
+    </head>
+    <body>
+        <p id="message">SNAKE</p>
+        <p id="score">SCORE</p>
+        <p id="highscore">HIGHSCORE</p>
+    </body>
+</html>
