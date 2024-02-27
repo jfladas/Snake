@@ -1,0 +1,1 @@
+**These are HTML files containing CSS and Javascript directly in the file**

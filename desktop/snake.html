@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Snake</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <p id="title">SNAKE<br></p>
+    <form>
+        <label for="matrixx" class="label">Width
+            <input id="matrixx" class="input" value="10">
+        </label>
+        <label for="matrixy" class="label">Height
+            <input id="matrixy" class="input" value="10">
+        </label>
+        <label for="startspeed" class="label">Speed (1 - 20)
+            <input id="startspeed" class="input" value="2">
+        </label>
+        <label for="speedfactor" class="label">Acceleration (0 - 99)
+            <input id="speedfactor" class="input" value="0">
+        </label>
+        <input type="button" value="START" id="button">
+    </form>
+    <div id="info">
+        <p class="display" class="gray">SCORE</p>
+        <p id="score" class="gray">...</p>
+        <p class="display">HIGHSCORE</p>
+        <p id="highscore">...</p>
+    </div>
+    <div id="container"></div>
+</body>
+
+<script src="src/init.js"></script>
+<script src="src/start.js"></script>
+<script src="src/loop.js"></script>
+<script src="src/step.js"></script>
+<script src="src/draw.js"></script>
+
+</html>

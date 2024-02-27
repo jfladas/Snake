@@ -1,0 +1,51 @@
+* {
+    font-family: Arial, sans serif;
+    font-weight: bold;
+}
+
+table {
+    border-spacing: 3px;
+    margin: 0px;
+}
+
+tr {
+    height: 31px;
+}
+
+td {
+    width: 31px;
+    border-radius: 3px;
+    padding: 0;
+}
+
+.off {
+    background-color: lightgrey;
+}
+
+.green {
+    background-color: lightseagreen;
+}
+
+.red {
+    background-color: lightcoral;
+}
+
+.yellow {
+    background-color: gold;
+}
+
+#display {
+    display: flex;
+    justify-content: space-around;
+}
+
+#message {
+    color: lightseagreen;
+    margin: 0px;
+    font-size: 70px;
+    text-align: center;
+}
+
+body {
+    position: fixed;
+}
