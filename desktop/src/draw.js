@@ -22,17 +22,17 @@ function makeFruit() {
     fruitY = y;
 }
 
-function onMatrix(x,y) {
-    if(x >= 0 && x < xMatrix && y >= 0 && y < yMatrix){
+function onMatrix(x, y) {
+    if (x >= 0 && x < xMatrix && y >= 0 && y < yMatrix) {
         return true;
     } else {
         return false;
     }
 }
 
-function onSnake(x,y) {
+function onSnake(x, y) {
     for (let i = 1; i < snakeLength; i++) {
-        if(x == snakeX[i] && y == snakeY[i]) {
+        if (x == snakeX[i] && y == snakeY[i]) {
             return true;
         }
     }

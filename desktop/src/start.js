@@ -1,11 +1,11 @@
-function startUp(){
-    if(gameOver) {
-        if(score > highScore) {
+function startUp() {
+    if (gameOver) {
+        if (score > highScore) {
             highScore = score;
         }
         try {
             document.getElementById("container").removeChild(document.getElementById("table"));
-        } catch {}
+        } catch { }
         checkInput("matrixx", 2, parseInt(window.innerWidth / 20));
         xMatrix = parseInt(document.getElementById("matrixx").value);
         checkInput("matrixy", 2, parseInt(window.innerHeight / 20) - 13);
@@ -20,7 +20,7 @@ function startUp(){
         speedFactor = 1 - parseInt(document.getElementById("speedfactor").value) / 100;
         checkInput("startspeed", 1, 20);
         delayTime = 1 / parseInt(document.getElementById("startspeed").value) * 1000;
-        if(!nan) {
+        if (!nan) {
             gameOver = false,
                 score = 0,
                 xDown = null,
@@ -42,13 +42,13 @@ function startUp(){
     }
 }
 
-function checkInput(id, min, max){
-    if(isNaN(document.getElementById(id).value)){
+function checkInput(id, min, max) {
+    if (isNaN(document.getElementById(id).value)) {
         alert("Bitte Zahl eingeben");
         nan = true;
-    } else if(document.getElementById(id).value < min){
+    } else if (document.getElementById(id).value < min) {
         document.getElementById(id).value = min;
-    } else if(document.getElementById(id).value > max) {
+    } else if (document.getElementById(id).value > max) {
         document.getElementById(id).value = max;
     }
 }

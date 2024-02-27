@@ -2,11 +2,11 @@ function loop() {
     setTimeout(function () {
         nextStep();
         keysChecked = false;
-        if(!gameOver){
+        if (!gameOver) {
             drawMatrix();
             loop();
         } else {
             newGame();
         }
-    },delayTime);
+    }, delayTime);
 }

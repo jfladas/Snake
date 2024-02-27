@@ -1,4 +1,4 @@
-function nextStep(){
+function nextStep() {
     for (let i = snakeLength; i > 0; i--) {
         snakeX[i] = snakeX[i - 1];
         snakeY[i] = snakeY[i - 1];
@@ -17,15 +17,15 @@ function nextStep(){
             snakeX[0] = snakeX[1] - 1;
             break;
     }
-    if(snakeX[0] == fruitX && snakeY[0] == fruitY) {
+    if (snakeX[0] == fruitX && snakeY[0] == fruitY) {
         snakeLength++;
         score++;
         document.getElementById("score").innerHTML = score;
-        if(score > highScore){
+        if (score > highScore) {
             document.getElementById("highscore").innerHTML = score;
             newHigh = true;
         }
-        if(snakeLength < matrixSize) {
+        if (snakeLength < matrixSize) {
             makeFruit();
             delayTime *= speedFactor;
         } else {
@@ -39,12 +39,12 @@ function nextStep(){
             }, 1000);
         }
     }
-    else if(!onMatrix(snakeX[0],snakeY[0])||onSnake(snakeX[0],snakeY[0])){
+    else if (!onMatrix(snakeX[0], snakeY[0]) || onSnake(snakeX[0], snakeY[0])) {
         gameOver = true;
     }
 }
 
-function newGame (){
+function newGame() {
     if (newHigh) {
         matrix.fill("red");
         newHigh = false;
@@ -52,5 +52,5 @@ function newGame (){
         matrix.fill("yellow");
     }
     document.getElementById("button").disabled = false;
-    document.getElementById("button").onclick = function(){startUp()};
+    document.getElementById("button").onclick = function () { startUp() };
 }
