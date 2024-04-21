@@ -14,3 +14,6 @@ Tailor your gaming experience on the desktop version by adjusting the snake matr
 Immerse yourself in a visually pleasing environment with a carefully crafted color theme. The game features a harmonious blend of white, grey, salmon, turquoise, and yellow hues.
 
 Whether you're reliving the classic Snake experience or introducing a new generation to this timeless game, enjoy the simplicity and customization this web-based Snake game has to offer. Get ready to slither through the matrix with style, anytime and anywhere!
+
+# Play here (Desktop Version)
+https://jfladas.github.io/Snake/
